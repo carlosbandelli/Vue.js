@@ -1,0 +1,50 @@
+Iniciando projeto Vue:
+nom eu caso eu abri um terminal no meu projeto e instalei desse jeito
+
+instalar no cmd o vue cli
+
+npm install -g @vue/cli
+
+para verificar se foi instalado no cmd:
+
+vue --version
+
+Iniciando o projeto
+
+no terminal aberto
+
+digiteo comando:
+	  *aqui voce coloca nome que voce quiser do projeto
+vue create guiaclientes 
+
+apos isso apertar enter
+e começa a instalar
+Depois de instalado
+você abre o terminla com o nome do projeto
+e escreva o seguinte comando
+npm run serve
+
+O que esse comand vai fazer:
+ele vai iniciar um servidor desenvolvimento do VUE
+
+O que um servidor desenvolvimento faz?
+ ele vai subir sua aplicação em uma URL local
+
+depois de instala-lo
+ ele vai te retornar assim
+DONE  Compiled successfully in 38515ms                                                                                        12:47:13
+
+  App running at:
+  - Local:   http://localhost:8080/
+  - Network: http://192.168.0.32:8080/
+
+  Note that the development build is not optimized.
+  To create a production build, run npm run build. 
+
+
+Já com a porta aberta onde esta hospedado
+
+e agora quando voce rodar o code sempre tem usar esse comando
+npm run serve
+
+

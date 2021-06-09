@@ -1,0 +1,18 @@
+O que são componentes?
+invez de voce ter 3 arquivos unicos para separar todo sua aplicação 
+cada compoente que voce for adicionar na sua aplicação 
+vai ter seu proprio arquivos.
+
+Como é feito o componete no vue.js?
+ele é divido em 3 partes 
+
+1º - parte do html que voce vai escrever todo o html
+
+2º - parte do estilo que afeta apenas aquele compoente
+
+3º - parte logico a parte do javascript
+
+
+
+
+

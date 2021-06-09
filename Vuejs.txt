@@ -11,4 +11,3 @@ o que seria uma aplicação de pagina unica?
 
 Uma aplicação de pagina unica é uma aplicação WEB estilo discord, para eu passar de uma pagina para outro eu não preciso
 recarregar a tela novamente.
-

@@ -1,0 +1,43 @@
+Babel?
+é uma biblioteca responsavel por pegar um código javascript mais moderno e converter
+em um código javascript que a maioria dos navegadores suportam.
+
+dentro do projeto vue
+
+contem :
+
+node_modules
+
+public:
+
+nessa pasta voce tem o arquivo favicon.ico o iconi da aba da internet
+
+e tambem o index.HTML e apenas um ponto de entrada pro VUE
+
+
+src:
+dentro dessa pasta
+encontra a pasta estatico onde voce coloca suas imagem. esse pasta chama:
+
+assets
+
+e tambem dentro da pasta src:
+tem a pasta compoentes
+ e seu arquivo principal chamado App.vue onde é o verdadeito html da pagina
+
+app.vue - ele é o componete raiz da sua aplicação, tudo que for fazer na sua aplicação é enciam desse componente
+
+ e temos tambem o arquivo main .js - voce vai usar para instalar bibliotecas adicionais
+ele cria uma nova instacia vue e joga encima de uma tag html.
+resumindo:
+ele ta criando uma novo projeto vue e ta dizendo que o componeste raiz desse projeto é o compoente app eno final eu to dizendo monte
+o nosso aplicativo vue no id app
+
+esse id esta sendo localizado no arquivo html
+assim
+<div id="app"></div> 
+
+
+
+
+

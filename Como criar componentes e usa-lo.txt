@@ -1,0 +1,135 @@
+1º - Você cria um arquivo na pasta components com extensão vue
+exemplo:
+
+Cliente.vue
+
+2º -  nesse arquivo voce cria 3 tag:
+	1ª - tag template
+	  1.1 - onde vai ser seu html
+	<template>
+    
+	</template>
+
+	
+	2ª - tag script
+	  2.1 - Onde você escreve todo sua logica
+	  2.2 - nota-se que essa tag script ja vem com export default, por quando voce cria um compoente voce
+		precisa exportar eles para usar em outros compoentes
+	<script>
+
+	export default {
+   
+	}
+	</script>
+
+	3ª - tag style
+	  3.1 - aqui onde voce vai definir o css desse componente
+	  3.2 - nota-se que ele tem um atrbuto chamadao scoped, significa tudo o que foi atribuido a esse estilo só será nesse compoente e mais nemum outro da pagina
+	<style scoped>
+
+	</style>
+
+Estrutura do compoente:
+
+1ª tag template:
+na <tag template> tem uma restrição sentro dela vocÊ so pode usar uma <tag> html para 
+burlar isso dentro da <tag> usamos uma <div> e dentro dessa <div> pode-se colocar quando voce quiser
+e essa <div> ainda pode recerber um "id".
+exemplo:
+
+<template> 
+    <div id="cliente">
+        <h2 id="cliente-nome">Cliente aqui! - Compoente aqui!</h2>      
+        <h3>Descrição do cliente: Bla bla bla!</h3>
+        <hr>
+    </div>
+</template>
+
+2ª tag script:
+
+
+
+
+3ª tag style:
+nessa <tag> voce pode usar quando <tag> voce quiser 
+porem ele pega a referencia do "id" da <div> que esta dento da <template>
+exemplo:
+
+<style scoped>
+    #cliente{
+        color:blue;
+        background-color:chocolate;
+        max-width: 600px;
+        height: 120px;
+
+    }
+
+    #cliente-nome{
+        color:blueviolet;
+    }
+
+</style>
+
+
+Como usar ele na minha aplicação principal?
+
+para usar-lo na aplicação principal, precisa colocar a <tag> dentro da <div> <template> conforme exemplo
+
+<template>
+  <div id="app">
+   <h1>Guia Clientes</h1>
+   <Cliente/>
+ </div>
+</template>
+
+e no <script> da aplicação principal precisa importa-lo e depois disso adciona-lo 
+dentro do export default.
+conforme exemplo:
+
+<script>
+
+import Cliente from './components/Cliente' <---"Importei"
+
+export default {
+  name: 'App',
+  components:{ <--- criei uma variavel dentro do export, abri e fechei {} e coloquei o nome do componente que será usado
+    Cliente
+  }
+ 
+}
+</script>
+
+E nesse exemplo abaixo mostra quando se quer usar um ou mais componentes dentro da aplicação principal:
+
+<template>
+  <div id="app">
+   <h1>Guia Clientes</h1>
+   <Cliente/>
+   <hr>
+      <h4>Lista de produtos!</h4>
+    <hr>
+    <Produto/>
+ </div>
+</template>
+
+<script>
+
+import Cliente from './components/Cliente'
+import Produto from './components/Produto.vue'
+
+export default {
+  name: 'App',
+  components:{
+    Cliente,
+    Produto
+  }
+ 
+}
+</script>
+
+<style>
+
+</style>
+
+
+
