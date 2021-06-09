@@ -1,0 +1,5 @@
+      Relembrando o que é DOM
+
+DOM - forma onde o navegador intergila o html ao javascript
+ 
+ele fala que todo elemento html em uma pagina é um objeto independete que vocÊ pode interagir com ele.
