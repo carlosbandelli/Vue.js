@@ -1,0 +1,195 @@
+Props?
+As props vão permitir que voce passe os dados de um compoenete durante a criação dele
+ maneira de passar dados pra dentro de um componentes
+
+Como trabalhar?
+
+voce vai no <script> e cria um objeto chamado props e dentro desse objeto eu defino
+os atributos que quero receber e seu tipo.
+
+Importante!:
+O ideal é NÃO ter nomes de variaveis iguais no data e no props para evitar conflito
+
+o codigo fica assim:
+<script>
+
+export default {
+   data(){
+       return{
+         
+       }    
+   },
+   props: {
+        nome: String,
+        email: String,
+        idade: Number,
+    }
+}
+</script>
+
+isso voce faz no seu componente.
+
+Agora pra usar no seu arquivo principal
+
+voce usa na parte html, ou seja nas <template>:
+
+assim:
+
+<template>
+  <div id="app">
+   <Cliente nome="Carlos bandelli" email="carlos@bandelli.com" idade="29"/>
+   <Cliente nome="Bandelli Carlos" email="bandelli@carlos.com" idade="30"/>
+   <Cliente nome="Bruno Bandelli" email="Bruno@bandelli.com" idade="26"/>
+   <Cliente nome="Obliterus" email="obliterus@lindo.com" idade="99999"/>  
+  </div>
+</template>
+
+e assim voce costumiza os dados dentro do componente.
+
+Se, voce quiser voce pode passar variaveis dentro do componente para dentro de outro
+essas variaveis vão se comportar de maneira reativa.
+
+por exemplo:
+Se eu tenho uma variavel dentro do arquivo APP.VUE, e eu passo essa variavel para dentro da <tag> <cliente/>
+de maneira reativa. Toda vez que essa variavel aqui dentro do meu APP.VUE mudar vai mudar dentro vai mudar dentro da 
+<tag> <cliente/> tambem.
+
+Como fazer isso?
+Primeiro tenho que definir uma camada de dados do meu arquivo APP.VUE.
+Como faço isso?
+eu tenho que chamar a função de dados, que ira retornar um objeto
+e ai eu posso definir uma variavel. digamos que eu quero definir do carlos
+então eu crio uma variavel, que vai receber Carlos AP. B. vieria.
+
+<script>
+
+import Cliente from './components/Cliente'
+import Produto from './components/Produto.vue'
+
+export default {
+  name: 'App',
+  data(){    <-------função
+    return{
+      nomeDoCarlos:"Carlos Ap. B. Vieira" <---varivel qu erecebe carlos
+    }
+  }
+  components:{
+    Cliente,
+    Produto
+  }
+ 
+}
+</script>
+
+
+feito isso posso chamar essa variavel dentro da <tag> <cliente/>.
+e como faço isso?
+fazendo um binding.
+como se faz um Binding
+Voce utiliza o : para fazer isso
+ e logo em seguida usa a varialvel que criar no script
+exemplo:
+
+<template>
+  <div id="app">
+   <Cliente :nome="nomeDoCarlos" email="carlos@bandelli.com" idade="29"/> <---- usei : (Binding)  e logo em seguida usei a variavel
+   <Cliente nome="Bandelli Carlos" email="bandelli@carlos.com" idade="30"/>
+   <Cliente nome="Bruno Bandelli" email="Bruno@bandelli.com" idade="26"/>
+   <Cliente nome="Obliterus" email="obliterus@lindo.com" idade="99999"/>  
+  </div>
+</template>
+
+e para mostra como ela é reativa dinamico fazemos assim
+adicionamos um input tipo texto e uma two way data biding e no v-model usamos a variavel que criamos
+exemplo:
+   <input type="text" v-model="nomeDoCarlos"> <-- recebe o nome usando two way dentro da variavel
+   <Cliente :nome="nomeDoCarlos" email="carlos@bandelli.com" idade="29"/> <--- one way lê o nome que sta na variavel
+
+E isso permite que passa objeto completos
+Cria essa variavel onde eu cria minha prop.
+e para isso eu posso criar uma prop do tipo objeto
+eu crio uma variavel que receber objeto.
+
+<script>
+
+export default {
+   data(){
+       return{
+         
+       }    
+   },
+   props: {
+        nome: String,
+        email: String,
+        idade: Number,
+        cliente: Object, <--- variavel criada
+    }
+}
+</script>
+
+e agora no meu arquivo principal eu crio uma variavel de objeto para receber do meu compoente Cliente
+
+<script>
+
+import Cliente from './components/Cliente'
+import Produto from './components/Produto.vue'
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      nomeDoCarlos:"Carlos Ap. B. Vieira"
+      clienteCarlos: {      <---- variavel de objeto criada
+        nome: "Carlos Bandelli", <---com seus respectivos campos
+        email: "Carlos@bandelli.com",
+        idade: 99
+
+      }
+    }
+  }
+  components:{
+    Cliente,
+    Produto
+  }
+ 
+}
+</script>
+
+Porem quando a aplicação rodar ela nao vai apresentar nada, para ela aparecer voce precisa
+ir no seu compoente clientes e nos campos da <tag> <template>:
+dessa maneira:
+
+<template> 
+    <div id="cliente">
+      <h4>Nome:{{cliente.nome}}</h4>
+      <hr>
+      <p>Email: {{cliente.email}}</p> 
+      <p>Idade:{{cliente.idade}}</p>
+    </div>
+</template>
+
+e tambem pode usar com o V-model
+
+Assim
+
+<template>
+  <div id="app">
+    <input type="text" v-model="clienteCarlos.nome">
+    <input type="text" v-model="nomeDoCarlos">
+   <Cliente :nome="nomeDoCarlos" email="carlos@bandelli.com" idade="29"/>
+   <Cliente :cliente="clienteCarlos"/>
+   <Cliente :cliente="clienteCarlos"/>
+   <Cliente :cliente="clienteCarlos"/>  
+  </div>
+</template>
+ e quando rodar a aplicação, assim que eu alterar o nome altera reativamente
+
+
+
+
+
+
+
+
+
+

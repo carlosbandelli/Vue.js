@@ -1,0 +1,65 @@
+Voce trocar a classe que tem um elemente HTML, atravez de uma condição boolean
+
+então no meu componeten cliente
+em style eu crio um uma classe
+
+para criar uma classe tem que começar com " . " igual exemplo:
+
+<style scoped>
+    .cliente{
+        
+        background-color: #CBC9CF;
+        max-width: 600px;
+        height: 180px;
+        padding: 1%;
+        margin-top: 2%;
+
+    }
+
+    .cliente-premium{
+        background-color: black;
+        color: yellow;
+        max-width: 600px;
+        height: 180px;
+        padding: 1%;
+        margin-top: 2%;
+
+    }
+
+    
+
+</style>
+
+Agora vou definir uma variavel dentro do data
+que ela vai receber falso por padrão
+<script>
+
+export default {
+   data(){
+       return{
+           isPremium: false <-- variavel criada
+         
+       }    
+   },
+   props: {
+       
+        cliente: Object,
+        showIdade: Boolean
+    }
+}
+</script>
+
+com isso eu quero o seguinte, caso o cliente seja premim ele tenha uma classe e caso não seja
+ele seja uma classe normal
+
+Para que funcione eu preciso ir na dive acresentar ":" antes dela e abrir {}
+
+<template> 
+    <div :class="{'cliente': !isPremium,'cliente-premium': isPremium}"> <--- e aqui fica assim uma condição quando a variavel isPremium for falso use essa classe se não use a outra
+      <h4>Nome:{{cliente.nome}}</h4>
+      <hr>
+      <p>Email: {{cliente.email}}</p> 
+      <p v-if="showIdade === true">Idade:{{cliente.idade}}</p>
+      <p v-else>O usuario escondeu a idade!</p>
+    </div>
+</template>

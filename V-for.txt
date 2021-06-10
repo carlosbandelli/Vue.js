@@ -1,0 +1,47 @@
+No meu componente app .vue
+eu vou criar um dado e nele vai ser um array
+
+para usar o V-for vamos na parte HTML <template>
+criamos uma <div> e dentro dela usamos o v-for, ele é usado com de fosse um
+atributo html.
+
+ <div v-for="cliente in clientes" :key=""> dentro da <div> estamos falando assim para cada cliente dentro de clientes
+      
+    </div>
+
+Para utilizar o v-for tem um pré-requisito que identica cada cliente, e ele tem ta dentro de cada cliente no array
+
+<script>
+
+e desse modo especificamos a Key do v-for lembrando que se usa a varial do for
+
+<div v-for="cliente in clientes" :key="cliente.id"> <--key espefica
+
+    </div> 
+e dentro da <div> colocamos a <tag> cliente com " : " recebendo a varialve do for
+
+<div v-for="cliente in clientes" :key="cliente.id">
+        <Cliente :cliente="cliente"/>
+    </div>
+
+E alem disso eu posso colocar um indice um outra parametro,
+as vezes voce quer exibir a numerção esse indece serve exaltamente para pra mostrar o valor
+
+ficando assim:
+
+<template>
+  <div id="app">    
+    <input type="text" v-model="clienteCarlos.nome">    
+    <input type="text" v-model="clienteCarlos.email">    
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">
+        <h4>Edição: </h4>        
+        <input type="text" v-model="cliente.nome">    
+        <input type="text" v-model="cliente.email">
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente"/>
+        <hr>
+        
+        
+    </div>
+  </div>
+</template>

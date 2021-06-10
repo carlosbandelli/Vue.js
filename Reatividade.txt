@@ -1,0 +1,35 @@
+Reatividade
+
+dentro do <script> voce cria uma função que o return dela volta um Json
+e nisso voce pode usar nos <template> com a interpolação {{}}:
+ ficando assim:
+<template> 
+    <div id="cliente">
+        <h2 id="cliente-nome">{{ nome }}</h2>      
+        <h3>Descrição do cliente: {{descrição}}</h3>
+        <hr>
+    </div>
+</template>
+
+<script>
+
+export default {
+   data(){
+       return{
+           nome: "Carlos Bandelli",
+           numero: "",
+           email: "",
+           idade:0,
+           descrição: "Lorem ipsum"
+       }
+   }
+}
+</script>
+
+Reatividade?
+é um conceito, toda vida que seu dado muda, todod o lugar que esta referenciando seu dado
+vai ser atualizado, vai reagir a mudanças que acontecer ao seu dado.
+exemplo:
+
+Então se esse HTML usa um dado meu chamado nome, todo vida que o conteudo de nome mudar 
+ele vai reagir e atualizar o conteudo dentro do html

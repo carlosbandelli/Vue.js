@@ -1,0 +1,50 @@
+Data Binding
+
+Existe dois tipo de DATA binding o oneway Data Binding e two way Data Biding
+
+One way Data Binding:
+
+Digamos que tnho aqui um input do tipo texto e eu quero que o conteudo desse input
+ seja o contudeo de um variavel minha no meu <script>,
+a maneira certa de fazer isso, eaasim sempre que voce quiser usar o valor da varivel
+dentro do input voce coloca : na frente e o campo que voce quer usar, conforme exemplo
+<input type="text" :value="nome">
+ou seja sempre que voce quiser usar uma variavel dentro de um atributo HTML voce
+coloca esse : e o campo que vai receber
+
+Data Binding?
+
+Quando se coloca esses ":", significa que voce esta ligando um dado em um camp de formulario
+ou seja estou coclando um dado em uma campo de formulario.
+
+E esse one way data Binding, ´eum data biding só para leitura ele só exibi o dado ele nao tem a capacidade de mudar o dado
+
+
+O codigo todo fica assim:
+
+<template> 
+    <div id="cliente">
+        <input type="text" :value="nome">
+        <hr>
+        <input type="text" :value="descrição">
+        <h2 id="cliente-nome">{{ nome }}</h2>      
+        <p>Descrição do cliente: {{descrição}}</p>
+        <hr>
+    </div>
+</template>
+
+<script>
+
+export default {
+   data(){
+       return{
+           nome: "Carlos Bandelli",
+           numero: "",
+           email: "",
+           idade:0,
+           descrição: "Lorem ipsum"
+       }
+   }
+}
+</script>
+

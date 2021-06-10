@@ -1,0 +1,36 @@
+Two Data Biding?
+Ele faz as ediçoes de dados, nao funciona em todos os tipo de atributos
+ele funciona mais em formularios, checkbox, select e etc.
+
+para usar esse metodo
+
+No lugar onde voce quer receber os dados e poder alterar o campo dinamicamente
+voce usa v-model=""(e o campo que voce quer receber).
+exemplo:
+
+<template> 
+    <div id="cliente">
+        <input type="text" v-model="nome">
+        <hr>
+        <input type="text" v-model="descrição">
+        <h2 id="cliente-nome">{{ nome }}</h2>      
+        <p>Descrição do cliente: {{descrição}}</p>        
+    </div>
+</template>
+
+<script>
+
+export default {
+   data(){
+       return{
+           nome: "Carlos Bandelli",
+           numero: "",
+           email: "",
+           idade:0,
+           descrição: "Lorem ipsum"
+       }
+   }
+}
+</script>
+
+

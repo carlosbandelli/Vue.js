@@ -1,0 +1,91 @@
+Diretiva?
+`um atributo que nao existe no HTML normal
+o VUE tem diretia chamada v-if, v-else e v-else -if.
+e para que serve isso?
+Serve para que voce consiga esconder ou exbibir um certo elemento HMTL baseando-se 
+em uma condição.
+
+Diferenca entre data e prop?
+
+A prop eu consigo expor a elas na tag e passar os valores
+e a Data é algo que fica encapsulado dentro do componente.
+
+Como eu quero passar essa variavel direto no compoente então vou criar ela sendo uma prop
+
+eu crio isso no componente:
+
+<script>
+
+export default {
+   data(){
+       return{
+         
+       }    
+   },
+   props: {
+       
+        cliente: Object,
+        showIdade: Boolean <--- variavel criada
+    }
+}
+</script>
+
+
+e adiciona uma diretiva na teg da idade no <template>:
+
+<template> 
+    <div id="cliente">
+      <h4>Nome:{{cliente.nome}}</h4>
+      <hr>
+      <p>Email: {{cliente.email}}</p> 
+      <p v-if="showIdade === true">Idade:{{cliente.idade}}</p> <- diretiva adicionada
+    </div>
+</template>
+
+estou falando assim quando adiciona essa diretiva:
+ Se showIdade for igual a true eu exibo Idade:{{cliente.idade}}
+
+agora eu vou na minha aplicação principal
+e adiciono no meu <template>
+
+<template>
+  <div id="app">
+    <input type="text" v-model="clienteCarlos.nome">
+    <input type="text" v-model="nomeDoCarlos">
+   <Cliente :nome="nomeDoCarlos" email="carlos@bandelli.com" idade="29"/>
+   <Cliente :cliente="clienteCarlos" :showIdade="true"/> <--- adicionado
+   <Cliente :cliente="clienteCarlos" :showIdade="true"/>
+   <Cliente :cliente="clienteCarlos" :showIdade="false"/>  
+  </div>
+</template>
+
+!!!importante!!!
+quando voce fez a variavel, ela recebe valor booleano, por isso quando acrescentamos
+a variavel colocamos acrescentamos o ":" pois nessa condiçção ele aceita valor booleano
+se nao tiver vira string.
+
+e agora voce pode usar outro recurso interressante.
+Digamos que invez de eu exibir a idade, quando eu mandar ele esconder a idade
+aparessa uma msg. para isso usamos um v-else
+o v-else tem que ser usado logo abaixo do v-if
+e no v-else vo cenoa precisa colocar nada ele ja vai automaticamente ligar no if
+
+<template> 
+    <div id="cliente">
+      <h4>Nome:{{cliente.nome}}</h4>
+      <hr>
+      <p>Email: {{cliente.email}}</p> 
+      <p v-if="showIdade === true">Idade:{{cliente.idade}}</p> <--condiçoes
+      <p v-else>O usuario escondeu a idade!</p> <--condiçoes
+    </div>
+</template>
+
+Assim como as condiçoes tem o 
+
+V-IF
+V-ELSE
+V-ELSE-IF
+V-SHOW - Essa diretiva ela só mostra se a condiçõa for o que voce permitiu  a direrença
+é quando voce usa if e else vóce coloca duas condiçoes e no console ele nao deixar ver se a condição
+não for o voce quer
+agor ano v-show ele mostra no console deixando-o desportegido se quiser esconder alguma informação
