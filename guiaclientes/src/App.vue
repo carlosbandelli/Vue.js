@@ -8,8 +8,7 @@
         <input type="text" v-model="cliente.email">
         <h4>{{ index + 1 }}</h4> 
         <Cliente :cliente="cliente"/>
-        <hr>
-        
+        <hr>    
         
     </div>
   </div>
