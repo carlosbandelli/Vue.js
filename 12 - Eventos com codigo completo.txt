@@ -1,0 +1,279 @@
+1º voce tem que ir em algum compoente e adicionar um evento.
+
+Nesse caso vamos montar um botão e dentro do botão vamos colocar um evento
+dentro do botão voce tem que colocar @ e o nome do evento que voce quer usar
+
+<button @click="">Mudar cor!</button>
+
+e nesse evento voce chama um metodo
+
+Dentro de um compoente do VUe voce consegui definir funções que geralmente voce
+chama atravez de eventos.
+Para definir essas funções, precisa escrever em par <script>
+
+Vai chamar um objeto chamado de methods:
+
+e para criar um método vocÊ defini o nome do metodo e depois atribui a função
+
+<script>
+export default {
+   data(){
+       return{
+           isPremium: false
+         
+       }    
+   },
+   props: {
+       
+        cliente: Object,
+        showIdade: Boolean
+    },
+    methods: {      <--- metodo adicionado
+        mudarCor: function(){
+            console.log("Chamando Evento!") <--- isso aqui só serve para mostra que ta chamando com usar inspecionar
+        }
+
+    }
+}
+</script>
+
+E agora vamos usar esse metodo com a classe que esta  na <div> do compoente
+essa aqui
+<template> 
+    <div :class="{'cliente': !isPremium,'cliente-premium': isPremium}"> <--- essa classe dentro da DIV
+      <h4>Nome:{{cliente.nome}}</h4>
+      <hr>
+      <p>Email: {{cliente.email}}</p> 
+      <p v-if="showIdade === true">Idade:{{cliente.idade}}</p>
+      <p v-else>O usuario escondeu a idade!</p>
+      <button @click="mudarCor">Mudar cor!</button>
+    </div>
+</template>
+
+No <script> eu vamos usar essa classe para fazer o evento mudar de cor
+
+<script>
+
+export default {
+   data(){
+       return{
+           isPremium: false
+         
+       }    
+   },
+   props: {
+       
+        cliente: Object,
+        showIdade: Boolean
+    },
+    methods: {
+        mudarCor: function(){
+            this.isPremium = !this.isPremium <--- esse 
+            
+        }
+
+    }
+}
+</script>
+
+Toda ve z que eu apertar o button que foi criado ele vai inverter a Variavel this.isPremium para True or False ou False OR true
+e vai mudar a condição da <div>
+
+<div :class="{'cliente': !isPremium,'cliente-premium': isPremium}"> <--- essa classe dentro da DIV
+
+O por que usa o this?
+
+methods: {
+        mudarCor: function(){
+            this.isPremium = !this.isPremium <--- esse this
+            
+        }
+
+this. ---> para voce acessar uma variavel que esta dentro de Data > methods voce tem que usar o this por que esse this aqui aponta pro componente
+que ele ta usando.
+ele ta falando assim esse this.
+Neste componente peguqe a variavel isPremium.
+
+Existe um recurso bem legal de eventos que el sempre retornão um dado.
+Se os eventos smepre retornão um ado eu posso ir nao metodod qu eeu crieo o evento e colocar um parametro
+
+então eu coloco esse paramento na parte html:
+
+<template> 
+    <div :class="{'cliente': !isPremium,'cliente-premium': isPremium}"> <--- essa classe dentro da DIV
+      <h4>Nome:{{cliente.nome}}</h4>
+      <hr>
+      <p>Email: {{cliente.email}}</p> 
+      <p v-if="showIdade === true">Idade:{{cliente.idade}}</p>
+      <p v-else>O usuario escondeu a idade!</p>
+      <button @click="mudarCor($event)">Mudar cor!</button>
+    </div>
+</template>
+
+e no script coloco tambem:
+
+<script>
+
+export default {
+   data(){
+       return{
+           isPremium: false
+         
+       }    
+   },
+   props: {
+       
+        cliente: Object,
+        showIdade: Boolean
+    },
+    methods: {
+        mudarCor: function($event){  <--- parametro colocado
+            console.log($event), <-- colocamos isso para ver o dado que el retorna
+	    this.isPremium = !this.isPremium
+            
+        }
+
+    }
+}
+</script>
+No vue tem com voce criar seus eventos costumizados, e passar seus dados de eventos tambem, e isso nos usamos
+Fazer com que um filho se comunique com o pai
+ou seja!
+atravez de eventos que vamos ver mais pra frent, que esse compoenete cliente aqui se comunique com o
+compoente app.vue que esta chamando por ele.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+Código completo do App.vue:
+
+<template>
+  <div id="app">    
+    <input type="text" v-model="clienteCarlos.nome">    
+    <input type="text" v-model="clienteCarlos.email">    
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">
+        <h4>Edição: </h4>        
+        <input type="text" v-model="cliente.nome">    
+        <input type="text" v-model="cliente.email">
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente"/>
+        <hr>    
+        
+    </div>
+  </div>
+</template>
+
+<script>
+
+import Cliente from './components/Cliente'
+
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      nomeDoCarlos:"Carlos Ap. B. Vieira",
+      clienteCarlos: {
+        nome: "Carlos Bandelli",
+        email: "Carlos@bandelli.com",
+        idade: 99
+      },
+      clientes: [
+        {
+          id:2,
+          nome: "Victor Lima",
+          email: "victor@lima.com",
+          idade: 99
+        },
+        {
+          id:22,
+          nome: "Michael Scott",
+          email: "michael@lima.com",
+          idade: 45
+        },
+        {
+          id: 45,
+          nomme: "Ednaldo Pereira",
+          email: "edanaldopereira.chance@yahoo.com",
+          idade: 86
+        },
+      ]
+    }
+  },
+  components:{
+    Cliente,    
+  }
+ 
+}
+</script>
+
+<style>
+
+</style>
+
+
+-------------------------------------------------------------------------------------------------------------------------
+
+
+Código completo do componente CLiente.vue :
+
+<template> 
+    <div :class="{'cliente': !isPremium,'cliente-premium': isPremium}">
+      <h4>Nome:{{cliente.nome}}</h4>
+      <hr>
+      <p>Email: {{cliente.email}}</p> 
+      <p v-if="showIdade === true">Idade:{{cliente.idade}}</p>
+      <p v-else>O usuario escondeu a idade!</p>
+      <button @click="mudarCor($event)">Mudar cor!</button>
+    </div>
+</template>
+
+<script>
+
+export default {
+   data(){
+       return{
+           isPremium: false
+         
+       }    
+   },
+   props: {
+       
+        cliente: Object,
+        showIdade: Boolean
+    },
+    methods: {
+        mudarCor: function($event){
+            console.log($event),
+            this.isPremium = !this.isPremium
+            
+        }
+
+    }
+}
+</script>
+
+<style scoped>
+    .cliente{
+        
+        background-color: #CBC9CF;
+        max-width: 600px;
+        height: 180px;
+        padding: 1%;
+        margin-top: 2%;
+
+    }
+
+    .cliente-premium{
+        background-color: black;
+        color: yellow;
+        max-width: 600px;
+        height: 180px;
+        padding: 1%;
+        margin-top: 2%;
+
+    }
+
+    
+
+</style>
+

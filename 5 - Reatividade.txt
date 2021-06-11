@@ -27,7 +27,7 @@ export default {
 </script>
 
 Reatividade?
-é um conceito, toda vida que seu dado muda, todod o lugar que esta referenciando seu dado
+é um conceito, toda vida que seu dado muda, todo o lugar que esta referenciando seu dado
 vai ser atualizado, vai reagir a mudanças que acontecer ao seu dado.
 exemplo:
 

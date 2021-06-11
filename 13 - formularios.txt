@@ -1,0 +1,204 @@
+Formulários
+Acrescentei 03 inputs
+
+<template>
+  <div id="app">   
+    <h3>Cadastro: </h3> 
+    <input type="text" placeholder="noem">   <--1 
+    <input type="email" placeholder="email"> <--2
+    <input type="number" placeholder="idade"> <---3 
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">       
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente"/>        
+    </div>
+  </div>
+</template>
+
+E agora pra fazer esse formulario funcioanr eu tenho que usar o Data binding em
+algum dado do meu componente
+ me na funçaõ data do meu compoenete, eu vou criar 3 variaveis ficando assim
+
+<script>
+
+import Cliente from './components/Cliente'
+
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      nomeField:"", <--1ª variavel
+      emailField:"", <-- 2ª variavel
+      idadeField:0,  <-- 3ª variavel
+      
+      clientes: [
+        {
+          id:2,
+          nome: "Victor Lima",
+          email: "victor@lima.com",
+          idade: 99
+        },
+        {
+          id:22,
+          nome: "Michael Scott",
+          email: "michael@lima.com",
+          idade: 45
+        },
+        {
+          id: 45,
+          nomme: "Ednaldo Pereira",
+          email: "edanaldopereira.chance@yahoo.com",
+          idade: 86
+        },
+      ]
+    }
+  },
+  components:{
+    Cliente,    
+  }
+ 
+}
+</script>
+
+e com essas variaveis criadas eu no <template>
+
+e acrescento V-models:
+
+<template>
+  <div id="app">   
+    <h3>Cadastro: </h3> 
+    <input type="text" placeholder="nome" v-model="nomeField">    <---v-model
+    <input type="email" placeholder="email" v-model="emailField"> <---v-model
+    <input type="number" placeholder="idade" v-model="idadeField"> <---v-model  
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">       
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente"/>        
+    </div>
+  </div>
+</template>
+
+Agora eu vou cria um butão que vai disparar um evento que vou criar um methodo em <script>
+
+<template>
+  <div id="app">   
+    <h3>Cadastro: </h3> 
+    <input type="text" placeholder="nome" v-model="nomeField"><br>    
+    <input type="email" placeholder="email" v-model="emailField"><br>
+    <input type="number" placeholder="idade" v-model="idadeField"><br>
+    <button @click="">Cadastrar</button> <------- botão criado
+    <hr>
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">       
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente"/>        
+    </div>
+  </div>
+</template>
+
+--------------------------------------------------------------------------------------------------
+
+isso tudo dentro do arquivo principal APP.vue:
+
+criando o methodo:
+
+<script>
+
+import Cliente from './components/Cliente'
+
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      nomeField:"",
+      emailField:"",
+      idadeField:0,
+      
+      clientes: [
+        {
+          id:2,
+          nome: "Victor Lima",
+          email: "victor@lima.com",
+          idade: 99
+        },
+        {
+          id:22,
+          nome: "Michael Scott",
+          email: "michael@lima.com",
+          idade: 45
+        },
+        {
+          id: 45,
+          nomme: "Ednaldo Pereira",
+          email: "edanaldopereira.chance@yahoo.com",
+          idade: 86
+        },
+      ]
+    }
+  },
+  components:{
+    Cliente,    
+  },
+
+  methods:{ <-- criei o  metodo
+    cadastrarUsuario: function(){ <--dei nome pra função 
+      this.clientes.push({ <-- usei o this que vai usar dentro do  array clientes e usar o metodo push que sem adiciona na ultima posição
+      nome: nomeField, <--- declarei as variaveis e coloquei o que cada uma vai receber
+      email: emailField,
+      idade: idadeField,
+      id: Date.now() <--- !!!IMPORTANTE!!! NÃO SE ESQUECE DE DEFINIR O ID ESSE ID TEM QUE SER DIFERENTE PARA CADA ELEMENTO DENTRO DO ARRAY, NESSE CASO USAMOS O METODO DATA PARA SER SEMPRE DIFERENTE O ARRAY
+      })
+    }
+  }
+ 
+}
+</script>
+
+--------------------------------------------------------------------------------------------------
+
+E agora feito isso eu posso colcoar o nome do evento no HTML:
+
+<template>
+  <div id="app">   
+    <h3>Cadastro: </h3> 
+    <input type="text" placeholder="nome" v-model="nomeField"><br>    
+    <input type="email" placeholder="email" v-model="emailField"><br>
+    <input type="number" placeholder="idade" v-model="idadeField"><br>
+    <button @click="cadastrarUsuario">Cadastrar</button> <------------- evento adicionado
+    <hr>
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">       
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente"/>        
+    </div>
+  </div>
+</template>
+
+------------------------------------------------------------------------------------------
+
+Porem tem que colocar o this pois estamos nos refernciando a um varialvel dentro da data:
+
+o código fica assim:
+
+methods:{
+    cadastrarUsuario: function(){
+      this.clientes.push({
+      nome: this.nomeField,
+      email: this.emailField,
+      idade: this.idadeField,
+      id: Date.now()
+      })
+
+Porem agora sempre que cadastrar um novo cliente eu quero que depois de apertar cadastrar os campos fiquem limpos
+então faremos:
+
+ methods:{
+    cadastrarUsuario: function(){
+      this.clientes.push({
+      nome: this.nomeField,
+      email: this.emailField,
+      idade: this.idadeField,
+      id: Date.now()
+      })
+      this.nomeField = "";
+      this.emailField = "";
+      this.idadeField = 0;
+    }

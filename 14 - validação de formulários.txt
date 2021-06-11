@@ -1,0 +1,254 @@
+dentro dos mehtos nos script fazemos nossa validação
+assim, colocamos com refrencia de validação o nome:
+
+<script>
+
+import Cliente from './components/Cliente'
+
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      nomeField:"",
+      emailField:"",
+      idadeField:0,
+      
+      clientes: [
+        {
+          id:2,
+          nome: "Victor Lima",
+          email: "victor@lima.com",
+          idade: 99
+        },
+        {
+          id:22,
+          nome: "Michael Scott",
+          email: "michael@lima.com",
+          idade: 45
+        },
+        {
+          id: 45,
+          nomme: "Ednaldo Pereira",
+          email: "edanaldopereira.chance@yahoo.com",
+          idade: 86
+        },
+      ]
+    }
+  },
+  components:{
+    Cliente,    
+  },
+
+  methods:{
+    cadastrarUsuario: function(){
+
+    if(this.nomeField == "" || this.nomeField == " " || this.nomeField.length < 3){  <--- condição de validação
+      console.log("Erro de validação") <---  mostra no terminal 
+    }else{
+        this.clientes.push({
+        nome: this.nomeField,
+        email: this.emailField,
+        idade: this.idadeField,
+        id: Date.now()
+        })
+        this.nomeField = "";
+        this.emailField = "";
+        this.idadeField = 0;
+      }
+    }
+  }
+ 
+}
+</script>
+
+-------------------------------------------------------------------------------------------------
+
+Agora para mostrar pro usuario no front-end assim que se deve fazer:
+
+criamos uma tag html no <template>
+ e nessa tag colocamos uma ID nele para podermos acrescentar css
+
+<template>
+  <div id="app">   
+    <h3>Cadastro: </h3> 
+    <small id="deuErro">O nome é inválido, tente novamente!</small><br> <---- tag acrescentada com id para usa no css
+    <input type="text" placeholder="nome" v-model="nomeField"><br>    
+    <input type="email" placeholder="email" v-model="emailField"><br>
+    <input type="number" placeholder="idade" v-model="idadeField"><br>
+    <button @click="cadastrarUsuario">Cadastrar</button>
+    <hr>
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">       
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente"/>        
+    </div>
+  </div>
+</template>
+
+----------------------------------------------------------------------------------
+
+para fazer com que esa tag apareça só quando der erro vamos acrescentar uma variavel ndeto de data no <script> com a condição booleana para false
+
+<script>
+
+import Cliente from './components/Cliente'
+
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      deuErro: false, <--- variavel acrescentada
+      nomeField:"",
+      emailField:"",
+      idadeField:0,
+      
+      clientes: [
+        {
+          id:2,
+          nome: "Victor Lima",
+          email: "victor@lima.com",
+          idade: 99
+        },
+        {
+          id:22,
+          nome: "Michael Scott",
+          email: "michael@lima.com",
+          idade: 45
+        },
+        {
+          id: 45,
+          nomme: "Ednaldo Pereira",
+          email: "edanaldopereira.chance@yahoo.com",
+          idade: 86
+        },
+      ]
+    }
+  },
+  components:{
+    Cliente,    
+  },
+
+  methods:{
+    cadastrarUsuario: function(){
+
+    if(this.nomeField == "" || this.nomeField == " " || this.nomeField.length < 3){
+      console.log("Erro de validação")
+    }else{
+        this.clientes.push({
+        nome: this.nomeField,
+        email: this.emailField,
+        idade: this.idadeField,
+        id: Date.now()
+        })
+        this.nomeField = "";
+        this.emailField = "";
+        this.idadeField = 0;
+	this.deuErro = false;
+      }
+    }
+  }
+ 
+}
+</script>
+---------------------------------------------------------------------
+
+feito isso vamos no html e colocamos um diretiva v-show, ou seja só vou mostrar essa tag html quando der erro
+
+<template>
+  <div id="app">   
+    <h3>Cadastro: </h3> 
+    <small id="deuErro" v-show="deuErro">O nome é inválido, tente novamente!</small><br> <--- v-show acrescetado
+    <input type="text" placeholder="nome" v-model="nomeField"><br>    
+    <input type="email" placeholder="email" v-model="emailField"><br>
+    <input type="number" placeholder="idade" v-model="idadeField"><br>
+    <button @click="cadastrarUsuario">Cadastrar</button>
+    <hr>
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">       
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente"/>        
+    </div>
+  </div>
+</template>
+-------------------------------------------------------------------------------
+
+e agora para mudar o estado da variavel para aparecer essa tag na aplicação
+voce acrescenta ela no if e no else dos methods que voce criou e fica assim:
+
+<script>
+
+import Cliente from './components/Cliente'
+
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      deuErro: false,
+      nomeField:"",
+      emailField:"",
+      idadeField:0,
+      
+      clientes: [
+        {
+          id:2,
+          nome: "Victor Lima",
+          email: "victor@lima.com",
+          idade: 99
+        },
+        {
+          id:22,
+          nome: "Michael Scott",
+          email: "michael@lima.com",
+          idade: 45
+        },
+        {
+          id: 45,
+          nomme: "Ednaldo Pereira",
+          email: "edanaldopereira.chance@yahoo.com",
+          idade: 86
+        },
+      ]
+    }
+  },
+  components:{
+    Cliente,    
+  },
+
+  methods:{
+    cadastrarUsuario: function(){
+
+    if(this.nomeField == "" || this.nomeField == " " || this.nomeField.length < 3){
+      this.deuErro = true <------------------------------------------------ variavel acrescentada
+      console.log("Erro de validação")
+    }else{
+        this.clientes.push({
+        nome: this.nomeField,
+        email: this.emailField,
+        idade: this.idadeField,
+        id: Date.now()
+        })
+        this.nomeField = "";
+        this.emailField = "";
+        this.idadeField = 0;
+      }
+    }
+  }
+ 
+}
+</script>
+
+como fica no style:
+
+<style>
+
+#deuErro{
+  color: red;
+}
+
+</style>
+
+
+
+
+

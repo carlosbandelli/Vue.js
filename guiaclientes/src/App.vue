@@ -1,15 +1,15 @@
 <template>
-  <div id="app">    
-    <input type="text" v-model="clienteCarlos.nome">    
-    <input type="text" v-model="clienteCarlos.email">    
-    <div v-for="(cliente,index) in clientes" :key="cliente.id">
-        <h4>Edição: </h4>        
-        <input type="text" v-model="cliente.nome">    
-        <input type="text" v-model="cliente.email">
+  <div id="app">   
+    <h3>Cadastro: </h3> 
+    <small id="deuErro" v-show="deuErro">O nome é inválido, tente novamente!</small><br>
+    <input type="text" placeholder="nome" v-model="nomeField"><br>    
+    <input type="email" placeholder="email" v-model="emailField"><br>
+    <input type="number" placeholder="idade" v-model="idadeField"><br>
+    <button @click="cadastrarUsuario">Cadastrar</button>
+    <hr>
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">       
         <h4>{{ index + 1 }}</h4> 
-        <Cliente :cliente="cliente"/>
-        <hr>    
-        
+        <Cliente :cliente="cliente"/>        
     </div>
   </div>
 </template>
@@ -23,12 +23,11 @@ export default {
   name: 'App',
   data(){
     return{
-      nomeDoCarlos:"Carlos Ap. B. Vieira",
-      clienteCarlos: {
-        nome: "Carlos Bandelli",
-        email: "Carlos@bandelli.com",
-        idade: 99
-      },
+      deuErro: false,
+      nomeField:"",
+      emailField:"",
+      idadeField:0,
+      
       clientes: [
         {
           id:2,
@@ -53,11 +52,36 @@ export default {
   },
   components:{
     Cliente,    
+  },
+
+  methods:{
+    cadastrarUsuario: function(){
+
+    if(this.nomeField == "" || this.nomeField == " " || this.nomeField.length < 3){
+      this.deuErro = true
+      console.log("Erro de validação")
+    }else{
+        this.clientes.push({
+        nome: this.nomeField,
+        email: this.emailField,
+        idade: this.idadeField,
+        id: Date.now()
+        })
+        this.nomeField = "";
+        this.emailField = "";
+        this.idadeField = 0;
+        this.deuErro = false;
+      }
+    }
   }
  
 }
 </script>
 
 <style>
+
+#deuErro{
+  color: red;
+}
 
 </style>
