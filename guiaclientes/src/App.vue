@@ -9,7 +9,7 @@
     <hr>
     <div v-for="(cliente,index) in clientes" :key="cliente.id">       
         <h4>{{ index + 1 }}</h4> 
-        <Cliente :cliente="cliente"/>        
+        <Cliente :cliente="cliente" @meDelete="deletarUsuario($event)"/>        
     </div>
   </div>
 </template>
@@ -72,6 +72,13 @@ export default {
         this.idadeField = 0;
         this.deuErro = false;
       }
+    },
+    deletarUsuario: function($event){
+      console.log("Recebendo evento")      
+      var id = $event.idDoCliente
+      var novoArray = this.clientes.filter(cliente => cliente.id != id) //esse é o metodo mais facil de deletar cliente da lista
+      this.clientes = novoArray
+      
     }
   }
  

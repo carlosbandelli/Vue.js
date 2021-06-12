@@ -5,7 +5,9 @@
       <p>Email: {{cliente.email}}</p> 
       <p v-if="showIdade === true">Idade:{{cliente.idade}}</p>
       <p v-else>O usuario escondeu a idade!</p>
-      <button @click="mudarCor($event)">Mudar cor!</button>
+      <button @click="mudarCor($event)">Mudar cor!</button>  
+      <button @click="emitirEventoDelete">Deletar</button>
+
     </div>
 </template>
 
@@ -26,9 +28,18 @@ export default {
     methods: {
         mudarCor: function($event){
             console.log($event),
-            this.isPremium = !this.isPremium
-            
+            this.isPremium = !this.isPremium            
+        },
+        emitirEventoDelete: function(){
+            console.log("Emitindo do filho!")
+            this.$emit("meDelete",{idDoCliente: this.cliente.id,curso: "Formação Node.js", emPromocao: true, component: this})
+        },
+
+        testar: function(){
+            console.log("Testando para valer!")
+            alert("Isso é um alert!")
         }
+
 
     }
 }

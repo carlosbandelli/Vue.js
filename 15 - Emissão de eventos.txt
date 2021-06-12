@@ -1,0 +1,486 @@
+Emissão de eventos?
+Comunicação entre o compoente filho ao compoenete pai.
+
+Uma das emições que iremos fazer é deleção
+vamos criar um botão no compoente Cliente.vue
+
+no template
+
+<template> 
+    <div :class="{'cliente': !isPremium,'cliente-premium': isPremium}">
+      <h4>Nome:{{cliente.nome}}</h4>
+      <hr>
+      <p>Email: {{cliente.email}}</p> 
+      <p v-if="showIdade === true">Idade:{{cliente.idade}}</p>
+      <p v-else>O usuario escondeu a idade!</p>
+      <button @click="mudarCor($event)">Mudar cor!</button>br
+      <button@click="">Deletar</button>
+
+    </div>
+</template>
+
+E em seguida vamos no script onde ta escrito methods
+
+e faremos um metodo para ele porem esse vai ser diferente pois ele vai precisaer emitir e por isso tem 
+uma sigla especial
+------------------------------------------------------------------------------
+<script>
+
+export default {
+   data(){
+       return{
+           isPremium: false
+         
+       }    
+   },
+   props: {
+       
+        cliente: Object,
+        showIdade: Boolean
+    },
+    methods: {
+        mudarCor: function($event){
+            console.log($event),
+            this.isPremium = !this.isPremium            
+        },
+        emitirEventoDelete: function(){
+            console.log("Emitindo do filho!") 
+            this.$emit("meDelete") <-------- emit adicionado
+        }
+
+    }
+}
+</script>
+-------------------------------------------------------------------------------------------
+
+e agora no componente principal no APP.VUE
+onde tem a tag cliente voce coloca um metodo para receber o metodo do outro componente
+e basicamente isso me fala assim:
+Eu estou excutando o evento costumizado meDelete que é emitido em algum momento
+pelo componente cliente
+
+<template>
+  <div id="app">   
+    <h3>Cadastro: </h3> 
+    <small id="deuErro" v-show="deuErro">O nome é inválido, tente novamente!</small><br>
+    <input type="text" placeholder="nome" v-model="nomeField"><br>    
+    <input type="email" placeholder="email" v-model="emailField"><br>
+    <input type="number" placeholder="idade" v-model="idadeField"><br>
+    <button @click="cadastrarUsuario">Cadastrar</button>
+    <hr>
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">       
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente"/ @meDelete="">  <--------tag de evento      
+    </div>
+  </div>
+</template>
+
+-----------------------------------------------------------------------------------------------------
+
+Agora criamos um metodo do componente principal APP.VUE
+tag <script>
+
+<script>
+
+import Cliente from './components/Cliente'
+
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      deuErro: false,
+      nomeField:"",
+      emailField:"",
+      idadeField:0,
+      
+      clientes: [
+        {
+          id:2,
+          nome: "Victor Lima",
+          email: "victor@lima.com",
+          idade: 99
+        },
+        {
+          id:22,
+          nome: "Michael Scott",
+          email: "michael@lima.com",
+          idade: 45
+        },
+        {
+          id: 45,
+          nomme: "Ednaldo Pereira",
+          email: "edanaldopereira.chance@yahoo.com",
+          idade: 86
+        },
+      ]
+    }
+  },
+  components:{
+    Cliente,    
+  },
+
+  methods:{
+    cadastrarUsuario: function(){
+
+    if(this.nomeField == "" || this.nomeField == " " || this.nomeField.length < 3){
+      this.deuErro = true
+      console.log("Erro de validação")
+    }else{
+        this.clientes.push({
+        nome: this.nomeField,
+        email: this.emailField,
+        idade: this.idadeField,
+        id: Date.now()
+        })
+        this.nomeField = "";
+        this.emailField = "";
+        this.idadeField = 0;
+        this.deuErro = false;
+      }
+    },
+    deletarUsuario: function(){       <------------------------------------ evento criado  
+      console.log("Recebendo evento")   
+    }
+  }
+ 
+}
+</script>
+
+--------------------------------------------------------------------------------------------------------------------
+
+Apos isso colocamos esse metodo no tag de evento que criamos no html <template>
+
+-----------------------------------------------------------------------------------------------------------------
+<template>
+  <div id="app">   
+    <h3>Cadastro: </h3> 
+    <small id="deuErro" v-show="deuErro">O nome é inválido, tente novamente!</small><br>
+    <input type="text" placeholder="nome" v-model="nomeField"><br>    
+    <input type="email" placeholder="email" v-model="emailField"><br>
+    <input type="number" placeholder="idade" v-model="idadeField"><br>
+    <button @click="cadastrarUsuario">Cadastrar</button>
+    <hr>
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">       
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente" @meDelete="deletarUsuario"/>   <----------- aqui colocamos o evento do componente cliente.vue que recebe o methodo que escrevemos no script     
+    </div>
+  </div>
+</template>
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Nos eventos costumizado pode ser passado dados, então vamos no compoente filho CLiente.vue
+e vamos adicionar um parametro no $emit
+
+<script>
+
+export default {
+   data(){
+       return{
+           isPremium: false
+         
+       }    
+   },
+   props: {
+       
+        cliente: Object,
+        showIdade: Boolean
+    },
+    methods: {
+        mudarCor: function($event){
+            console.log($event),
+            this.isPremium = !this.isPremium            
+        },
+        emitirEventoDelete: function(){
+            console.log("Emitindo do filho!")
+            this.$emit("meDelete",{curso: "Formação Node.js", emPromocao: true}) <------- passando dados
+        }
+
+
+    }
+}
+</script>
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+E para receber esses dados nos vamos no arquivo principal, e onde esta recebndo esse evento vamos colocar
+essa tag($event)
+
+e no metodo e faço a mesma coisa e coloco ($event)
+
+conforme exemplo:
+
+--------------------------------------------------------------------------------------------------------------------------
+
+<template>
+  <div id="app">   
+    <h3>Cadastro: </h3> 
+    <small id="deuErro" v-show="deuErro">O nome é inválido, tente novamente!</small><br>
+    <input type="text" placeholder="nome" v-model="nomeField"><br>    
+    <input type="email" placeholder="email" v-model="emailField"><br>
+    <input type="number" placeholder="idade" v-model="idadeField"><br>
+    <button @click="cadastrarUsuario">Cadastrar</button>
+    <hr>
+    <div v-for="(cliente,index) in clientes" :key="cliente.id">       
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente" @meDelete="deletarUsuario($event)"/>  <--------------evento adicionado      
+    </div>
+  </div>
+</template>
+
+<script>
+
+import Cliente from './components/Cliente'
+
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      deuErro: false,
+      nomeField:"",
+      emailField:"",
+      idadeField:0,
+      
+      clientes: [
+        {
+          id:2,
+          nome: "Victor Lima",
+          email: "victor@lima.com",
+          idade: 99
+        },
+        {
+          id:22,
+          nome: "Michael Scott",
+          email: "michael@lima.com",
+          idade: 45
+        },
+        {
+          id: 45,
+          nomme: "Ednaldo Pereira",
+          email: "edanaldopereira.chance@yahoo.com",
+          idade: 86
+        },
+      ]
+    }
+  },
+  components:{
+    Cliente,    
+  },
+
+  methods:{
+    cadastrarUsuario: function(){
+
+    if(this.nomeField == "" || this.nomeField == " " || this.nomeField.length < 3){
+      this.deuErro = true
+      console.log("Erro de validação")
+    }else{
+        this.clientes.push({
+        nome: this.nomeField,
+        email: this.emailField,
+        idade: this.idadeField,
+        id: Date.now()
+        })
+        this.nomeField = "";
+        this.emailField = "";
+        this.idadeField = 0;
+        this.deuErro = false;
+      }
+    },
+    deletarUsuario: function($event){ <-----------------------adicionado o parametro de função
+      console.log("Recebendo evento")
+      console.log($event) <----------------------------------- mostrar no terminal
+    }
+  }
+ 
+}
+</script> 
+------------------------------------------------------------------------------------------------------------------------------------
+
+e ainda podemos passar o componente junto aos dados para fazer isso voce tem escreve component : this para receber o componente,
+a instancia atual do componente
+
+<script>
+
+export default {
+   data(){
+       return{
+           isPremium: false
+         
+       }    
+   },
+   props: {
+       
+        cliente: Object,
+        showIdade: Boolean
+    },
+    methods: {
+        mudarCor: function($event){
+            console.log($event),
+            this.isPremium = !this.isPremium            
+        },
+        emitirEventoDelete: function(){
+            console.log("Emitindo do filho!")
+            this.$emit("meDelete",{curso: "Formação Node.js", emPromocao: true, component: this}) <-------- compoente adicionado
+        }
+
+
+    }
+}
+</script>
+
+Para pegar o id do cliente tem que ser feito assim, primeiro voce vai no componente filho onde voce fez o metodo
+e na $emit e trá que colocar this.cliente.id
+-------------------------------------------------------------------------------------
+emitirEventoDelete: function(){
+            console.log("Emitindo do filho!")
+            this.$emit("meDelete",{idDoCliente: this.cliente.id,curso: "Formação Node.js", emPromocao: true, component: this})
+        }
+-------------------------------------------------------------------------------------------
+
+e com isso voce pode ir no compoente Pai e ir no metodo que esta recebendo seu evento e adicionar um $event.idDocliente
+para verificar o componente
+
+----------------------------------------------------
+deletarUsuario: function($event){
+      console.log("Recebendo evento")
+      console.log($event.idDoCliente) <----console.log adcionado
+      
+    }
+-----------------------------------------------------
+Um coisa que pode ser feita que pode chamr metodos de uma compoenete dentro de outro
+exemplo
+
+dentro do meu componente filho eu posso cria um metodo.
+
+exemplo
+
+ testar: function(){
+            console.log("Testando para valer!")
+            alert("Isso é um alert!")
+        }
+
+De poisde feito posso ir no meu componente APP.VUE
+
+e atraves da variavel compoenete que esta no compoenete filho
+eu posso chamar o evento direto da função 
+
+<script>
+
+import Cliente from './components/Cliente'
+
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      deuErro: false,
+      nomeField:"",
+      emailField:"",
+      idadeField:0,
+      
+      clientes: [
+        {
+          id:2,
+          nome: "Victor Lima",
+          email: "victor@lima.com",
+          idade: 99
+        },
+        {
+          id:22,
+          nome: "Michael Scott",
+          email: "michael@lima.com",
+          idade: 45
+        },
+        {
+          id: 45,
+          nomme: "Ednaldo Pereira",
+          email: "edanaldopereira.chance@yahoo.com",
+          idade: 86
+        },
+      ]
+    }
+  },
+  components:{
+    Cliente,    
+  },
+
+  methods:{
+    cadastrarUsuario: function(){
+
+    if(this.nomeField == "" || this.nomeField == " " || this.nomeField.length < 3){
+      this.deuErro = true
+      console.log("Erro de validação")
+    }else{
+        this.clientes.push({
+        nome: this.nomeField,
+        email: this.emailField,
+        idade: this.idadeField,
+        id: Date.now()
+        })
+        this.nomeField = "";
+        this.emailField = "";
+        this.idadeField = 0;
+        this.deuErro = false;
+      }
+    },
+    deletarUsuario: function($event){
+      console.log("Recebendo evento")
+      console.log($event.idDoCliente)
+      $event.component.testar()      <-----------------chamando evento
+      
+    }
+  }
+ 
+}
+</script>
+
+-----------------------------------------------------------------------------------------
+
+Só que nosso foco agora é querer deletar um id dentro do nosso array
+como fazemos isso?
+
+no metodo deletarUsuario vamos criar uma variavel que ira receber idDocliente
+e vou colocar um filtro, e esse filtro é uma função que recebe uma regra
+onde para cada cliente ele compare se o id do cliente é diferente do id da minha variavel que acabei de criar
+
+deletarUsuario: function($event){
+      console.log("Recebendo evento")      
+      var id = $event.idDoCliente
+      this.clientes.filter(cliente => cliente.id != id) <----e esse filtro é uma função que recebe uma regra onde para cada cliente ele compare se o id do cliente é diferente do id da minha variavel que acabei de criar
+
+      
+    }
+-------------------------------------------------------------------------
+
+resumindo o que estamos fazendo com tudo isso?
+Nessa função deletar, estamos pegando primeiramente um click de remoção no compoenente filho
+O compoeneet filho emite um evento dizendo: "Olha me remova, Pai", passando o id 
+do cliente (Nome da vaiavel: idDoCliente).
+eai estamos recebendo esse id atravez do evento (no componete pai, na var id  )
+
+deletarUsuario: function($event){
+      console.log("Recebendo evento")      
+      var id = $event.idDoCliente  <--- rebendo o id nessa variavel
+      this.clientes.filter(cliente => cliente.id != id) <----e esse filtro é uma função que recebe uma regra onde para cada cliente ele compare se o id do cliente é diferente do id da minha variavel que acabei de criar
+
+      
+    }
+Apos isso estamos filtrando o array, para ver se nos achamos esse id, se achar algum elemente com esse id
+nos vamos remover esse elemento do array atravez do metodo filter, e apos isso que recebemos um novo array atravez do filter
+
+nos passamos o novo array dentor do array de clientes
+
+deletarUsuario: function($event){
+      console.log("Recebendo evento")      
+      var id = $event.idDoCliente
+      var novoArray = this.clientes.filter(cliente => cliente.id != id) //esse é o metodo mais facil de deletar cliente da lista
+      this.clientes = novoArray
+      
+    }
+
+
+
+
