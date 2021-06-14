@@ -7,7 +7,7 @@
     <input type="number" placeholder="idade" v-model="idadeField"><br>
     <button @click="cadastrarUsuario">Cadastrar</button>
     <hr>
-    <div v-for="(cliente,index) in clientes" :key="cliente.id">       
+    <div v-for="(cliente,index) in orderClientes" :key="cliente.id">       
         <h4>{{ index + 1 }}</h4> 
         <Cliente :cliente="cliente" @meDelete="deletarUsuario($event)"/>        
     </div>
@@ -16,6 +16,7 @@
 
 <script>
 
+import _ from 'lodash'
 import Cliente from './components/Cliente'
 
 
@@ -43,10 +44,17 @@ export default {
         },
         {
           id: 45,
-          nomme: "Ednaldo Pereira",
+          nome: "Ednaldo Pereira",
           email: "edanaldopereira.chance@yahoo.com",
           idade: 86
         },
+        {
+          id:75,
+          nome: "Bruno Bandelli",
+          email: "Bruno@bandelinho.com",
+          idade: 74
+
+        }
       ]
     }
   },
@@ -79,6 +87,11 @@ export default {
       var novoArray = this.clientes.filter(cliente => cliente.id != id) //esse é o metodo mais facil de deletar cliente da lista
       this.clientes = novoArray
       
+    }
+  },
+  computed: {
+    orderClientes: function(){
+      return _.orderBy(this.clientes,['nome'],['asc'])
     }
   }
  

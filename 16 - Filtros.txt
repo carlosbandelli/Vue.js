@@ -1,0 +1,90 @@
+Para que serve os filtros?
+Os filtros serve para voce processar variaveis que voce esta bindando no seu HTML
+
+OU seja
+
+Digamos que eu tenho email do clientes, e eu quero obrigatóriamente que esse e-mails
+na exibição esse e-mail estejam sempre em letras maisuculas.
+O que eu posso fazer eu posso procesar essa informação que esta sendo exibida
+sem muda-la ou seja vou mudar apenas a exibição, mas o dados aparecerá o mesmo.
+
+como eu faço isso?
+Atravez de filtros.
+
+Como crio filtros?
+eu vou no meu componente, onde esta asinformações que eu quero manipular
+
+e no meu campo script eu vou criar abaixo do meu metodo um compoenete chamado
+filters e dentro dele posso começãr a definir meus filtros.
+O filtros tem uma estrutura muito semelhante com os metodos.
+
+Um filtor por padãor sem recebe um parametro que é o valor, e tem que retornar algo
+
+<script>
+
+export default {
+   data(){
+       return{
+           isPremium: false
+         
+       }    
+   },
+   props: {
+       
+        cliente: Object,
+        showIdade: Boolean
+    },
+    methods: {
+        mudarCor: function($event){
+            console.log($event),
+            this.isPremium = !this.isPremium            
+        },
+        emitirEventoDelete: function(){
+            console.log("Emitindo do filho!")
+            this.$emit("meDelete",{idDoCliente: this.cliente.id,curso: "Formação Node.js", emPromocao: true, component: this})
+        },
+
+        testar: function(){
+            console.log("Testando para valer!")
+            alert("Isso é um alert!")
+        }
+    },
+    filters:{ <---------------------------------depois do methods
+        processarEmail: function(value){  <-------recebe um valor
+            return value.toUpperCase()    <-------- return um valor
+        }
+    }
+}
+</script>
+
+Como funciona esse filtros?
+Eu tenho que ir onde estou bindando e aplicar o filtro
+
+Como eu aplico?
+
+EU vou no email coloco um simbolo de pipe " | " e coloca o nomedo filtro
+--------------------------------------------------------------------------------------------------------------
+<template> 
+    <div :class="{'cliente': !isPremium,'cliente-premium': isPremium}">
+      <h4>Nome:{{cliente.nome}}</h4>
+      <hr>
+      <p>Email: {{cliente.email | processarEmail}}</p> <-------------------------Filtro adicionado
+      <p v-if="showIdade === true">Idade:{{cliente.idade}}</p>
+      <p v-else>O usuario escondeu a idade!</p>
+      <button @click="mudarCor($event)">Mudar cor!</button>  
+      <button @click="emitirEventoDelete">Deletar</button>
+
+    </div>
+</template>
+
+--------------------------------------------------------------------------------------------------------------------
+ O filtro é assim basicamento ele ta passando essa informção "cliente.email" para dentro do filtro " processarEmail"
+Por isso precisa receber um valor com parametro e ele retorn esse valor depois
+Isso só altera a exibição e nao o valor
+
+
+
+
+
+
+

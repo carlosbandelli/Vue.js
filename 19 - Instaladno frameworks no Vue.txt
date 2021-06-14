@@ -1,0 +1,17 @@
+Para instalar frame work no vue
+1ª voce instala ela na sua pasta do arquivo, no caso vamos instaalr a bulma
+
+2ª depois de instalda voce importa ela para o arquivo em javascript main.js
+-------------------------------------------------------------------------------
+import Vue from 'vue'
+import App from './App.vue'
+import "../node_modules/bulma/css/bulma.css" <---- importado
+
+Vue.config.productionTip = false
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
+-----------------------------------------------------------------------------------
+
+e automaticamento ele vai estar instaldo no seu projeto

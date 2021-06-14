@@ -2,11 +2,12 @@
     <div :class="{'cliente': !isPremium,'cliente-premium': isPremium}">
       <h4>Nome:{{cliente.nome}}</h4>
       <hr>
-      <p>Email: {{cliente.email}}</p> 
+      <p>Email: {{cliente.email | processarEmail}}</p> 
       <p v-if="showIdade === true">Idade:{{cliente.idade}}</p>
       <p v-else>O usuario escondeu a idade!</p>
       <button @click="mudarCor($event)">Mudar cor!</button>  
       <button @click="emitirEventoDelete">Deletar</button>
+      <h4>Id especial:{{idEspecial}}</h4>
 
     </div>
 </template>
@@ -39,8 +40,16 @@ export default {
             console.log("Testando para valer!")
             alert("Isso é um alert!")
         }
-
-
+    },
+    filters:{
+        processarEmail: function(value){
+            return value.toUpperCase()
+        }
+        
+    },
+    computed:{idEspecial: function(){
+            return (this.cliente.email + this.cliente.nome + this.cliente.id).toUpperCase()
+        }
     }
 }
 </script>
@@ -50,7 +59,7 @@ export default {
         
         background-color: #CBC9CF;
         max-width: 600px;
-        height: 180px;
+        height: 200px;
         padding: 1%;
         margin-top: 2%;
 
@@ -60,7 +69,7 @@ export default {
         background-color: black;
         color: yellow;
         max-width: 600px;
-        height: 180px;
+        height: 200px;
         padding: 1%;
         margin-top: 2%;
 

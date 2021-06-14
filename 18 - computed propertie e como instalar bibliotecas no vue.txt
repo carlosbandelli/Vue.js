@@ -1,0 +1,206 @@
+Outra ultilidade das Compouted properties
+Atualmente no nosso porjeto temos as lista de clientes, mas queremos ela em ondem alfavetica
+para que isso ocorra precisamos fazer o seguinte
+
+Aprendendo a importar biliotecas?
+
+Para importar bibliotecas no vue, voce primeiro tem que instalara bilioteca na
+pasta qu esta seu arquivo no caso vamos instalr um a biblioteca chamada lodash
+
+---------------------------
+
+npm i --save lodash
+
+--------------------------
+
+Apos a instalação, vamos importa-lo no componente onde queremos utilizado
+no caso nosso compoente principal chamado
+App.vue, por que nesse compoente ´eonde fica o array queresmo processar.
+
+o lodahs é indetificado no projeto por _ então ficaram assim:
+---------------------------------------------------------------------------
+<script>
+
+import _ from 'lodash' <---- lodash importado para o compoente
+import Cliente from './components/Cliente'
+
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      deuErro: false,
+      nomeField:"",
+      emailField:"",
+      idadeField:0,
+      
+      clientes: [
+        {
+          id:2,
+          nome: "Victor Lima",
+          email: "victor@lima.com",
+          idade: 99
+        },
+        {
+          id:22,
+          nome: "Michael Scott",
+          email: "michael@lima.com",
+          idade: 45
+        },
+        {
+          id: 45,
+          nomme: "Ednaldo Pereira",
+          email: "edanaldopereira.chance@yahoo.com",
+          idade: 86
+        },
+      ]
+    }
+  },
+  components:{
+    Cliente,    
+  },
+
+  methods:{
+    cadastrarUsuario: function(){
+
+    if(this.nomeField == "" || this.nomeField == " " || this.nomeField.length < 3){
+      this.deuErro = true
+      console.log("Erro de validação")
+    }else{
+        this.clientes.push({
+        nome: this.nomeField,
+        email: this.emailField,
+        idade: this.idadeField,
+        id: Date.now()
+        })
+        this.nomeField = "";
+        this.emailField = "";
+        this.idadeField = 0;
+        this.deuErro = false;
+      }
+    },
+    deletarUsuario: function($event){
+      console.log("Recebendo evento")      
+      var id = $event.idDoCliente
+      var novoArray = this.clientes.filter(cliente => cliente.id != id) //esse é o metodo mais facil de deletar cliente da lista
+      this.clientes = novoArray
+      
+    }
+  }
+ 
+}
+</script>
+-------------------------------------------------------------------------------------------
+Automatica ele vai puxar essa biblioteca da pasta node_modules.
+
+Agora posso criar um computed proprted chamada oreder clientes onde basicamente eu vou rodar a função de ordenação do lodash e vou retornar
+
+A função par aiiso é chamad de _orderby onde voce consegui dizer pelo o qeu voc equer order e se é crescente ou decresente.
+
+Então vou retornar um array que é ordenado pelo lodash,
+
+1º usamos o lugar que ele vai ordenar com o this, depois o que ele vai ter de referncia para ordernar e deposi se é crescente ou decrescente
+
+ficou assim o codigo:
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+<script>
+
+import _ from 'lodash'
+import Cliente from './components/Cliente'
+
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      deuErro: false,
+      nomeField:"",
+      emailField:"",
+      idadeField:0,
+      
+      clientes: [
+        {
+          id:2,
+          nome: "Victor Lima",
+          email: "victor@lima.com",
+          idade: 99
+        },
+        {
+          id:22,
+          nome: "Michael Scott",
+          email: "michael@lima.com",
+          idade: 45
+        },
+        {
+          id: 45,
+          nomme: "Ednaldo Pereira",
+          email: "edanaldopereira.chance@yahoo.com",
+          idade: 86
+        },
+      ]
+    }
+  },
+  components:{
+    Cliente,    
+  },
+
+  methods:{
+    cadastrarUsuario: function(){
+
+    if(this.nomeField == "" || this.nomeField == " " || this.nomeField.length < 3){
+      this.deuErro = true
+      console.log("Erro de validação")
+    }else{
+        this.clientes.push({
+        nome: this.nomeField,
+        email: this.emailField,
+        idade: this.idadeField,
+        id: Date.now()
+        })
+        this.nomeField = "";
+        this.emailField = "";
+        this.idadeField = 0;
+        this.deuErro = false;
+      }
+    },
+    deletarUsuario: function($event){
+      console.log("Recebendo evento")      
+      var id = $event.idDoCliente
+      var novoArray = this.clientes.filter(cliente => cliente.id != id) //esse é o metodo mais facil de deletar cliente da lista
+      this.clientes = novoArray
+      
+    }
+  },
+  computed: {
+    orderClientes: function(){
+      return _.orderBy(this.clientes,['nome'],['asc']) <---- usamos o lugar que ele vai ordenar com o this, depois o que ele vai ter de referncia para ordernar e deposi se é crescente ou decrescente
+
+    }
+  }
+ 
+}
+</script>
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ E agora eu posso ir na <tag> <template> e na v-for cliente e trocar pela minha computed properties e assim eu recebo o array ordenado
+
+-----------------------------------------------------------------------------------------
+
+<template>
+  <div id="app">   
+    <h3>Cadastro: </h3> 
+    <small id="deuErro" v-show="deuErro">O nome é inválido, tente novamente!</small><br>
+    <input type="text" placeholder="nome" v-model="nomeField"><br>    
+    <input type="email" placeholder="email" v-model="emailField"><br>
+    <input type="number" placeholder="idade" v-model="idadeField"><br>
+    <button @click="cadastrarUsuario">Cadastrar</button>
+    <hr>
+    <div v-for="(cliente,index) in orderClientes" :key="cliente.id">  <------- vfor foi adicionado e troca para orderClientes     
+        <h4>{{ index + 1 }}</h4> 
+        <Cliente :cliente="cliente" @meDelete="deletarUsuario($event)"/>        
+    </div>
+  </div>
+</template>
+
+-----------------------------------------------------------------------------------------
