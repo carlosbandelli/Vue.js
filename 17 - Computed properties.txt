@@ -1,11 +1,11 @@
 Computed Properties?
-Que são um a forma de voce criar dados e varfiaveis que são dinamicos
+Que são um a forma de voce criar dados e variaveis que são dinamicos
 
 
 As estruturas Computed Properties, são bem semelhantes aos filtros.
 
 Digamos que quero uma propriedade que é gerada dinamicamente.
-Então o grande ponto das computed é esse, voce ter propriedades que gral dinamicamente.
+Então o grande ponto das computed é esse, voce ter propriedades que geral dinamicamente.
 Digamos,que eu queira gerar um id de usuarios, e eu só consigo gera o id desse usuario
 juntando o campo de e-mail com o campo de nome e deixando todo mundo com letra maiuscula
 

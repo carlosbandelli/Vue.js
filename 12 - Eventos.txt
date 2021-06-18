@@ -68,7 +68,7 @@ export default {
     },
     methods: {
         mudarCor: function(){
-            this.isPremium = !this.isPremium <--- esse 
+            this.isPremium = !this.isPremium <--- esse compoente pega a variavel isPremium
             
         }
 
@@ -76,7 +76,7 @@ export default {
 }
 </script>
 
-Toda ve z que eu apertar o button que foi criado ele vai inverter a Variavel this.isPremium para True or False ou False OR true
+Toda venz que eu apertar o button que foi criado ele vai inverter a Variavel this.isPremium para True or False ou False OR true
 e vai mudar a condição da <div>
 
 <div :class="{'cliente': !isPremium,'cliente-premium': isPremium}"> <--- essa classe dentro da DIV
