@@ -94,7 +94,7 @@ que ele ta usando.
 ele ta falando assim esse this.
 Neste componente peguqe a variavel isPremium.
 
-Existe um recurso bem legal de eventos que el sempre retornão um dado.
+Existe um recurso bem legal de eventos que ele sempre retornão um dado.
 Se os eventos smepre retornão um ado eu posso ir nao metodod qu eeu crieo o evento e colocar um parametro
 
 então eu coloco esse paramento na parte html:
